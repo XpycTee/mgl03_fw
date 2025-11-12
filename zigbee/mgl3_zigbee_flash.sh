@@ -51,12 +51,14 @@ ack2() {
 
 upload_gbl() {
   echo "Sending upload command"
-  send '1'
+  send '1\r'
+  sleep 1
+  $SX -vv -X -b "$1" < $DEV > $DEV
 }
 
 restart() {
   echo "Sending restart command"
-  send '2'
+  send '2\r'
 }
 
 read_file() {
@@ -180,8 +182,7 @@ elif [ "v$VERSION" = "v13" ]; then
   to_btl_13
 fi
 
-upload_gbl
-$SX -vv -X -b "$FIRMWARE_FILE" < $DEV > $DEV
+upload_gbl $FIRMWARE_FILE
 
 sleep 1
 restart
