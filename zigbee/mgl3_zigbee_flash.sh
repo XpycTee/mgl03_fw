@@ -93,26 +93,9 @@ get_version() {
   fi
 }
 
-download_curl() {
-  echo -n "curl doesn't exists, downloading..."
-  printf 'GET /files/curl HTTP/1.1\r\nHost: mipsel-ssl.vacuumz.info\r\nUser-Agent: Wget/1.20.3\r\nConnection: close\r\n\r\n' |\
-   openssl s_client \
-    -quiet -tls1_1 \
-    -connect mipsel-ssl.vacuumz.info:443 \
-    -servername mipsel-ssl.vacuumz.info 2>/dev/null |\
-   sed '/alt-svc.*/d' |\
-   tail -n +19 > /tmp/curl && chmod +x /tmp/curl
-  export PATH="$PATH:/tmp"
-  echo "done!"
-}
-
 download_tools() {
   echo -n "Downloading $1..."
-  CURL=$(which curl)
-  if [ "x$CURL" = "x" ]; then
-    download_curl
-  fi
-  curl -k "https://mipsel-ssl.vacuumz.info/files/$1" -o "/data/$1" && chmod +x "/data/$1"
+  wget -O "/data/$1" "http://master.dl.sourceforge.net/project/mgl03/bin/$1?viasf=1" && chmod +x "/data/$1"
   echo "done!"
 }
 
