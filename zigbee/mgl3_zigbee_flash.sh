@@ -211,5 +211,7 @@ echo ""
 echo "Flashing completed!"
 echo ""
 echo "Reload XiaomiGateway3 integration or restart Home Assistant"
-IP_ADDR=$(ifconfig br0 | grep "inet addr" | cut -d":" -f2 | cut -d" " -f1)
+IP_ADDR=$(ifconfig br0 2>/dev/null | grep "inet addr" | cut -d":" -f2 | cut -d" " -f1)
+[ -z "$IP_ADDR" ] && IP_ADDR=$(ifconfig eth0 2>/dev/null | grep "inet addr" | cut -d":" -f2 | cut -d" " -f1)
+[ -z "$IP_ADDR" ] && IP_ADDR=$(ifconfig wlan0 2>/dev/null | grep "inet addr" | cut -d":" -f2 | cut -d" " -f1)
 echo "Configure zigbee2mqtt port address to: tcp://$IP_ADDR:8888"
