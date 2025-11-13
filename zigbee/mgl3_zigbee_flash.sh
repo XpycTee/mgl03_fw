@@ -155,6 +155,14 @@ echo "Killing default zigbee software"
 killall socat
 killall ser2net
 killall daemon_app.sh
+
+# try to kill who may block ttyS2
+killall app_monitor.sh
+killall openmiio_agent
+killall basic_app
+killall basic_gw
+killall zigbee_gw
+
 killall Lumi_Z3GatewayHost_MQTT
 
 echo "Done"
